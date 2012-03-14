@@ -4,7 +4,7 @@ import time
 ec2 = boto.connect_ec2()
 sns = boto.connect_sns()
 
-set_name = lambda id, name: core.ec2.create_tags( [id], {'Name' : name } )
+set_name = lambda id, name: ec2.create_tags( [id], {'Name' : name } )
 
 def wait_running(id):
 
@@ -16,7 +16,15 @@ def wait_running(id):
     time.sleep(2)
 
 def log(msg):
-  sns.publish( 'arn:aws:sns:us-east-1:758139277749:SharePointLab', msg, 'Lab Start' )
+
+  try:
+    
+    sns.publish( 'arn:aws:sns:us-east-1:758139277749:SharePointLab', msg, 'Lab Start' )
+
+  except Exception, e:
+
+    print msg
+    print e.message
 
 def start_dc():
 
@@ -38,8 +46,8 @@ def start_dc():
   v = ec2.get_all_volumes( ['vol-1fb7d673'] )[0]
   ec2.attach_volume(  v.id, dc.id, 'xvdf' )
 
-  set_name( dc.id, 'velascek-dc' )
-  log( 'velasekc-dc started' )
+  set_name( dc.id, 'velaskec-dc' )
+  log( 'velaskec-dc started' )
 
 
 def start_spot( image_id ):
@@ -55,7 +63,7 @@ def start_spot( image_id ):
 def start_wss(): 
 
   start_spot('ami-4be23222')
-  log( 'wss4fe started' )
+  log( 'wss4fe spot created' )
 
 def start_sql():
 
