@@ -47,7 +47,7 @@ def start_dc():
   ec2.attach_volume(  v.id, dc.id, 'xvdf' )
 
   set_name( dc.id, 'velaskec-dc' )
-  log( 'velaskec-dc started' )
+  log( 'velaskec-dc started at %s' % ip.public_ip )
 
 
 def start_spot( image_id ):
@@ -83,5 +83,5 @@ def start_sql():
   ec2.associate_address( instance_id,  allocation_id=ip.allocation_id )
 
   set_name( instance_id, 'sql1' )
-  log( 'sql1 started' )
+  log( 'sql1 started at %s' % ip.public_ip )
 
