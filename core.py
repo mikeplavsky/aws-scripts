@@ -60,28 +60,50 @@ def start_spot( image_id ):
 
   )[0]
 
-def start_wss(): 
+spots = []
 
-  start_spot('ami-4be23222')
-  log( 'wss4fe spot created' )
+def start_spots(): 
 
-def start_sql():
+  [spots.append(start_spot(x)) for x  
+    in [ 'ami-7fe23216','ami-4be23222']]
 
-  s_sql = start_spot( 'ami-7fe23216' )
+  log( 'spot requests have been created' )
 
-  sql = lambda: ec2.get_all_spot_instance_requests([s_sql.id])[0]
-  while sql().state != 'active': time.sleep(1)
+def get_instance(spot_id):
 
-  instance_id = sql().instance_id
+  spot = lambda: ec2.get_all_spot_instance_requests([spot_id.id])[0]
+  while spot().state != 'active': time.sleep(1)
 
+  return spot().instance_id
+
+
+def allocate_ip(id):
+
+  ip = ec2.allocate_address(domain='vpc')
+  ec2.associate_address( id,  allocation_id=ip.allocation_id )
+
+  return ip
+
+
+def tune_sql():
+
+  instance_id = get_instance(spots[0])
   wait_running( instance_id )
 
   v = ec2.get_all_volumes( ['vol-3df85651'] )[0]
   ec2.attach_volume(  v.id, instance_id, 'xvdf' )
 
-  ip = ec2.allocate_address(domain='vpc')
-  ec2.associate_address( instance_id,  allocation_id=ip.allocation_id )
+  ip = allocate_ip(instance_id)
 
   set_name( instance_id, 'sql1' )
   log( 'sql1 started at %s' % ip.public_ip )
 
+def tune_wss():
+
+  instance_id = get_instance(spots[1])
+  wait_running( instance_id )
+
+  ip = allocate_ip(instance_id)
+
+  set_name( instance_id, 'wss4fe' )
+  log( 'wss4fe started at %s' % ip.public_ip )

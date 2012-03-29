@@ -5,8 +5,10 @@ import core
 try:
 
   core.start_dc()
-  core.start_wss()
-  core.start_sql()
+  core.start_spots()
+
+  core.tune_sql()
+  core.tune_wss() 
 
 except Exception, e:
 
