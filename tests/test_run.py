@@ -1,4 +1,4 @@
-ip = "107.21.11.137"
+ip = "107.21.45.173"
 
 from nose.tools import *
 
@@ -15,7 +15,7 @@ def run(name):
 def check_res( name ):
   
   res = run( name )
-  eq_(res[0], 0)
+  eq_( int(res[0]), 0)
 
 def test_run():
 
