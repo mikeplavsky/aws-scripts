@@ -1,4 +1,5 @@
-ip = "107.21.45.173"
+import sys
+ip = sys.argv[2]
 
 from nose.tools import *
 
@@ -28,4 +29,21 @@ def test_run():
 
   for t in tests:
     yield check_res, t
+
+def test_wait_setup():
+
+  import time
+  
+  for i in range(0,10):
+
+    time.sleep( 5 )
+    res = run("LabTests.InfoPortal.IsInstalled")
+
+    if int(res[0]) == 0: 
+      return
+
+  ok_( False )
     
+def test_fix_ip(): 
+
+  check_res( "LabTests.InfoPortal.FixIp" )
