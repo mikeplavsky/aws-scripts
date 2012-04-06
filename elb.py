@@ -1,9 +1,11 @@
 #!/usr/bin/python
 
-import boto
+if __name__ == "__main__":
 
-elb = boto.connect_elb()
-phabricator = elb.get_all_load_balancers()[0]
+  import boto
 
-import sys
-phabricator.register_instances( sys.argv[1] )
+  elb = boto.connect_elb()
+  phabricator = elb.get_all_load_balancers()[0]
+
+  import sys
+  phabricator.register_instances( sys.argv[1] )

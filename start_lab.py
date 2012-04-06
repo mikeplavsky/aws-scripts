@@ -2,18 +2,22 @@
 
 import core
 
-try:
+if __name__ != "__main__":  
 
-  core.start_dc()
-  core.start_spots()
+  try:
 
-  core.tune_sql()
-  core.tune_wss() 
+    core.init()
 
-except Exception, e:
+    core.start_dc()
+    core.start_spots()
 
-  print e.message
-  core.log( e.message )
+    core.tune_sql()
+    core.tune_wss() 
+
+  except Exception, e:
+
+    print e.message
+    core.log( e.message )
 
 
 

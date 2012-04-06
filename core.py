@@ -1,8 +1,13 @@
-import boto
 import time
 
-ec2 = boto.connect_ec2()
-sns = boto.connect_sns()
+def init():
+
+  import boto
+  
+  res = globals()
+
+  res["ec2"] = boto.connect_ec2()
+  res["sns"] = boto.connect_sns()
 
 set_name = lambda id, name: ec2.create_tags( [id], {'Name' : name } )
 
