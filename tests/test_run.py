@@ -11,12 +11,12 @@ def run(name):
   import re
   res = re.search( ", (\d*) wrong", test )
 
-  return res.groups()
+  return (res.groups(),test)
 
 def check_res( name ):
   
   res = run( name )
-  eq_( int(res[0]), 0)
+  eq_( int(res[0][0]), 0, res[1])
 
 def test_run():
 
@@ -39,7 +39,7 @@ def test_wait_setup():
     time.sleep( 5 )
     res = run("LabTests.InfoPortal.IsInstalled")
 
-    if int(res[0]) == 0: 
+    if int(res[0][0]) == 0: 
       return
 
   ok_( False )
