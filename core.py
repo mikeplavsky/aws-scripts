@@ -1,5 +1,8 @@
 import time
 
+ec2 = None
+sns = None
+
 def init():
 
   import boto
