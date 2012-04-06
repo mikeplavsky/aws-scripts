@@ -2,13 +2,13 @@
 
 if __name__ != "__main__":  
 
-  from core import init, ec2, log
+  from core import init, ec2 
   init()
 
   def terminate(image_id):
 
     i = ec2.get_all_instances(filters= { 'image-id': image_id })
-    [y.terminate() for x1 in i for y in x1.instances if y.state == 'running' ]
+    [y.terminate() for x in i for y in x.instances if y.state == 'running' ]
 
   [terminate(x) for x in ('ami-c5a675ac', 'ami-7fe23216', 'ami-4be23222')]
 

@@ -1,7 +1,7 @@
 import sys
 ip = sys.argv[2]
 
-from nose.tools import *
+from nose.tools import eq_, ok_
 
 def run(name):
 
