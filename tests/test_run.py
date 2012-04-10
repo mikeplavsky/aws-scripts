@@ -36,7 +36,7 @@ def test_wait_setup():
   
   for i in range(0,10):
 
-    time.sleep( 5 )
+    time.sleep( 30 )
     res = run("LabTests.InfoPortal.IsInstalled")
 
     if int(res[0][0]) == 0: 
