@@ -14,9 +14,15 @@ def init():
 
 set_name = lambda id, name: ec2.create_tags( [id], {'Name' : name } )
 
+def get_image(name):
+  return ec2.get_all_images( owners = ["758139277749"], filters = {"name" : "%s*" % name } )[0]
+
+def get_instance_by_id(id):
+  return ec2.get_all_instances( [id] )[0].instances[0] 
+
 def wait_running(id):
 
-  i = ec2.get_all_instances( [id] )[0].instances[0]
+  i = get_instance_by_id(id)
 
   while i.state != 'running':
 
@@ -57,22 +63,26 @@ def start_dc():
   set_name( dc.id, 'velaskec-dc' )
   log( 'velaskec-dc started at %s' % ip.public_ip )
 
+price = {"m1.small": "0.115", "m1.medium" : "0.230"}
 
-def start_spot( image_id ):
+def start_spot( image_id, instance_type, **kwargs ):
 
-  return ec2.request_spot_instances( '0.2', image_id, count = 1,
+  return ec2.request_spot_instances( price[instance_type], image_id, count = 1,
 
     key_name = 'webserver',
-    instance_type = 'm1.medium',
-    subnet_id = 'subnet-b58921dd'
+    instance_type = instance_type,
+    **kwargs
 
   )[0]
+  
+def start_vpc_spot( image_id ):
+  return start_spot( image_id, 'm1.medium', subnet_id = 'subnet-b58921dd')
 
 spots = []
 
 def start_spots(): 
 
-  [spots.append(start_spot(x)) for x  
+  [spots.append(start_vpc_spot(x)) for x  
     in [ 'ami-7fe23216','ami-4be23222']]
 
   log( 'spot requests have been created' )
