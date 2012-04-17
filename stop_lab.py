@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
   selenium_id = core.get_image("selenium")
 
-  [terminate(x) for x in ('ami-c5a675ac', 'ami-7fe23216', 'ami-4be23222', selenium_id)]
+  [terminate(x) for x in ('ami-c5a675ac', 'ami-7fe23216', 'ami-4be23222', selenium_id.id)]
 
   [core.ec2.disassociate_address(association_id = x.association_id) 
     for x in core.ec2.get_all_addresses() if x.association_id]
