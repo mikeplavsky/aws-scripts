@@ -1,0 +1,1 @@
+0 19 * * * cd /home/ubuntu/aws-script;./stop_labs.py
