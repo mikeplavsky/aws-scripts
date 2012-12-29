@@ -14,8 +14,8 @@ def init():
 
 set_name = lambda id, name: ec2.create_tags( [id], {'Name' : name } )
 
-def get_image(name):
-  return ec2.get_all_images( owners = ["758139277749"], filters = {"name" : "%s*" % name } )[0]
+def get_image(name, owners = ["758139277749","128732327734"]):
+  return ec2.get_all_images( owners = owners, filters = {"name" : "%s*" % name } )[0]
 
 def get_instance_by_id(id):
   return ec2.get_all_instances( [id] )[0].instances[0] 
@@ -63,7 +63,7 @@ def start_dc():
   set_name( dc.id, 'velaskec-dc' )
   log( 'velaskec-dc started at %s' % ip.public_ip )
 
-price = {"m1.small": "0.115", "m1.medium" : "0.230"}
+price = {"m1.small": "0.115", "m1.medium" : "0.230", "m1.large": "0.46"}
 
 def start_spot( image_id, instance_type, **kwargs ):
 
@@ -101,6 +101,12 @@ def allocate_ip(id):
   ec2.associate_address( id,  allocation_id=ip.allocation_id )
 
   return ip
+
+
+def attach_volume(v_name, instance_id):
+
+  v = ec2.get_all_volumes( [v_name] )[0]
+  ec2.attach_volume(  v.id, instance_id, 'xvdf' )
 
 
 def tune_sql():
