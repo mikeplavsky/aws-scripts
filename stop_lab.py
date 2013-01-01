@@ -1,18 +1,19 @@
 #!/usr/bin/python
+import core
 
 if __name__ == "__main__":  
 
-  import core
   core.init()
 
-  def terminate(image_id):
+  def term(x):
+    try:
+      x.terminate()
+    except Exception, e:
+      core.log(str(e))
 
-    i = core.ec2.get_all_instances(filters= { 'image-id': image_id })
-    [y.terminate() for x in i for y in x.instances if y.state == 'running' ]
+  filter = lambda(x): x.tags.get( "aws:autoscaling:groupName" ) != None
 
-  selenium_id = core.get_image("selenium")
-
-  [terminate(x) for x in ('ami-c5a675ac', 'ami-7fe23216', 'ami-4be23222', selenium_id.id)]
+  [term(y) for x in core.ec2.get_all_instances() for y in x.instances if not filter(y)]
 
   [core.ec2.disassociate_address(association_id = x.association_id) 
     for x in core.ec2.get_all_addresses() if x.association_id]
