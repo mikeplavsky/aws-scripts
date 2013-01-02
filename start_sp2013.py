@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import core
 
 def start_sp():
@@ -14,7 +16,6 @@ def attach_fitnesse(s):
 
   core.attach_volume('vol-1fb7d673',s) 
   core.log( "SP2013 Lab has been started!" )
-
 
 if __name__ == "__main__":
 
