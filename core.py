@@ -14,7 +14,9 @@ def init():
 
 set_name = lambda id, name: ec2.create_tags( [id], {'Name' : name } )
 
-def get_image(name, owners = ["758139277749","128732327734"]):
+owners = ["758139277749","128732327734"] 
+
+def get_image(name):
   return ec2.get_all_images( owners = owners, filters = {"name" : "%s*" % name } )[0]
 
 def get_instance_by_id(id):
