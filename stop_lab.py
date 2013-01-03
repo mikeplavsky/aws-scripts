@@ -21,5 +21,7 @@ if __name__ == "__main__":
   [core.ec2.release_address(allocation_id = x.allocation_id) 
     for x in core.ec2.get_all_addresses() if x.allocation_id]
 
-  [v.delete() for v in core.ec2.get_all_volumes() if not v.tags and v.status != 'in-use']
-  [call(x.delete) for x in core.ec2.get_all_snapshots(owner = 'self')]
+  for v in core.ec2.get_all_volumes():
+    if not v.tags and v.status != 'in-use': v.delete() 
+
+  for x in core.ec2.get_all_snapshots(owner = 'self'): call(x.delete) 
