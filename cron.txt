@@ -1,1 +1,2 @@
 0 19 * * * cd /home/ubuntu/aws-scripts;./stop_lab.py
+0 20 * * * cd /home/ubuntu/aws-scripts;./stop_lab.py

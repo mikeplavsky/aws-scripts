@@ -73,6 +73,7 @@ def start_spot( image_id, instance_type, **kwargs ):
 
     key_name = 'webserver',
     instance_type = instance_type,
+    monitoring_enabled = True,
     **kwargs
 
   )[0]
