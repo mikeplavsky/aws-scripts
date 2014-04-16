@@ -8,10 +8,10 @@ if __name__ == "__main__":
   def call(func):
     try:
       func()
-    except Exception, e:
+    except Exception as e:
       core.log(str(e))
 
-  filter = lambda(x): x.tags.get( "aws:autoscaling:groupName" ) != None
+  filter = lambda x: x.tags.get( "aws:autoscaling:groupName" ) != None
 
   [call(y.terminate) for x in core.ec2.get_all_instances() for y in x.instances if not filter(y)]
 

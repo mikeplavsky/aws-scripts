@@ -37,10 +37,10 @@ def log(msg):
     
     sns.publish( 'arn:aws:sns:us-east-1:758139277749:SharePointLab', msg, 'Lab Start' )
 
-  except Exception, e:
+  except Exception as e:
 
-    print msg
-    print e.message
+    print(msg)
+    print(e.message)
 
 def start_dc():
 
@@ -65,7 +65,7 @@ def start_dc():
   set_name( dc.id, 'velaskec-dc' )
   log( 'velaskec-dc started at %s' % ip.public_ip )
 
-price = {"m1.small": "0.115", "m1.medium" : "0.230", "m1.large": "0.46"}
+price = {"t1.micro":"0.020","m1.small": "0.115", "m1.medium" : "0.230", "m1.large": "0.46"}
 
 def start_spot( image_id, instance_type, **kwargs ):
 
